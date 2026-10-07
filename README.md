@@ -6,11 +6,11 @@ Built with **Python, Streamlit, Gemini, LangChain, PostgreSQL, pgvector, and Plo
 
 ## Demo
 
-[Watch or download the recording on GitHub](https://github.com/amansingh425442/DatabaseRAG/releases/download/v0.1.0/project-demo.mp4) · [Demo release](https://github.com/amansingh425442/DatabaseRAG/releases/tag/v0.1.0) · [Google Drive copy](https://drive.google.com/file/d/1HQmMSei_0-pIQt3-Z5DvPb0ZXdk1iOqH/view)
+[▶ Watch the demo in your browser — no download required](https://drive.google.com/file/d/1HQmMSei_0-pIQt3-Z5DvPb0ZXdk1iOqH/view)
 
-The recording is a release attachment, so cloning the source does not download the video.
+Click either screenshot to open the video. A [downloadable copy](https://github.com/amansingh425442/DatabaseRAG/releases/tag/v0.1.0) is also available on GitHub.
 
-![Approved results and chart](docs/images/year-comparison.png)
+[![Approved results and chart — click to watch the demo](docs/images/year-comparison.png)](https://drive.google.com/file/d/1HQmMSei_0-pIQt3-Z5DvPb0ZXdk1iOqH/view)
 
 ## Features
 
@@ -21,7 +21,9 @@ The recording is a release attachment, so cloning the source does not download t
 - Retrieve documentation and metric definitions using local embeddings and pgvector.
 - Validate queries and execute with read-only access, timeouts, and result limits.
 
-![Review SQL before running it](docs/images/sql-approval.png)
+[▶ Watch the demo in your browser — no download required](https://drive.google.com/file/d/1HQmMSei_0-pIQt3-Z5DvPb0ZXdk1iOqH/view)
+
+[![Review SQL before running it — click to watch the demo](docs/images/sql-approval.png)](https://drive.google.com/file/d/1HQmMSei_0-pIQt3-Z5DvPb0ZXdk1iOqH/view)
 
 ## Architecture
 
