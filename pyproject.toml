@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "olist-analytics-agent"
+version = "0.1.0"
+description = "Evidence-grounded analytics over historical Olist data"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "SQLAlchemy==2.0.54", "psycopg[binary]==3.3.6", "pgvector==0.5.0",
+  "langchain==1.4.3", "sentence-transformers==5.7.0", "pydantic==2.13.5",
+  "pandas==3.0.6", "plotly==6.9.0", "streamlit==1.65.0", "python-dotenv==1.2.4",
+  "sqlglot==30.21.0"
+]
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1"]
+gemini = ["langchain-google-genai==4.4.0"]
+
+[project.scripts]
+olist = "olist_agent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+olist_agent = ["db/*.sql"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: requires running PostgreSQL", "live: requires explicitly configured model"]
