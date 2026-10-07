@@ -34,9 +34,3 @@ METRICS = {m.id: m for m in [
     metric("payment_value_share", "Payment value share (%)", "One payment record", "100 * value for method / total matching recorded payment value", "Null payment values excluded and warned; zero total yields null", "Recorded payment value under matching filters", attribution="Payment method; not item sales"),
     metric("payment_order_share", "Orders using payment method (%)", "Distinct order-method pair", "100 * distinct orders for method / all matching orders with payment records", "Unknown method labelled Unknown; zero denominator yields null", "Distinct orders with at least one payment record; shares can exceed 100% combined", attribution="An order can use several methods; unsuitable for a pie chart"),
 ]}
-
-
-def get_definition(metric_id):
-    if metric_id not in METRICS:
-        raise ValueError("Unknown metric ID")
-    return METRICS[metric_id]

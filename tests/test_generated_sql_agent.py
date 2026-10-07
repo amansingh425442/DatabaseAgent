@@ -30,6 +30,10 @@ FROM counted ORDER BY ranking"""
     model = ScriptedModel(scripts=[propose, report()])
     service = AgentService(model, query, MockRetriever(), store, Settings(max_seconds=20))
     pending = service.run("session", "Rank order statuses in 2017")
+    assert set(model.bound_names) == {
+        "retrieve_context", "execute_analytics_query", "validate_sql",
+        "check_result", "create_chart", "Report",
+    }
     assert pending["pending_query"]["query"] == sql
     assert pending["pending_query"]["display_query"] == sql
     assert not query.calls and not store.results

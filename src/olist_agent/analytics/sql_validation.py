@@ -1,7 +1,7 @@
 """Validate model SQL without rewriting it or executing a preview."""
 import sqlglot
 from sqlglot import exp
-from sqlglot.errors import ParseError, OptimizeError
+from sqlglot.errors import OptimizeError
 from sqlglot.optimizer.qualify import qualify
 from sqlglot.optimizer.scope import traverse_scope, Scope
 from olist_agent.analytics.schema_context import APPROVED_COLUMNS

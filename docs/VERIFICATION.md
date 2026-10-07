@@ -107,3 +107,12 @@ At the user's request, the agent now receives the live approved-view column sche
 - Documentation was reindexed locally: **27 chunks, 4 changed chunks embedded**, using all-MiniLM-L6-v2 and 384-dimensional pgvector storage. The retrieval corpus now includes SQL-text examples and approved-view column documentation. SQLGlot **30.21.0** is pinned; the dependency closure records **114** packages and `pip check` passed.
 
 Evidence: `.runtime/gemini-generated-sql-verification.json`, `.runtime/ui-year-query-review.png` and `.runtime/ui-year-comparison.png`. The final app health endpoint returned `ok`. SQL validation constrains syntax, accessible relations/columns and permitted functions; it cannot prove that every model SQL query correctly interprets a natural-language request. The user reviews the exact SQL before execution, and partial historical-year coverage is disclosed.
+
+
+## Unused-code cleanup ? 2026-10-07
+
+Removed redundant inspect_schema and get_metric_definition tools because live view schema and metric definitions are already in the initial prompt. The agent now has five tools: retrieve_context, validate_sql, execute_analytics_query, check_result, and create_chart. SQL repair feedback, exact-query approval, chart validation, session checks, and RAG remain active.
+
+Removed unused imports, the unused percent_change and constrain_query helpers, personal launch notes, and 24 obsolete generated build files. Kept required libraries and operational helpers; the legacy QuerySpec compiler is still used by source-data verification and fixture/integration tests, never by the chat agent.
+
+Validation: 197 offline tests passed (10 deselected), 9 PostgreSQL integration tests passed (198 deselected), and pip check found no broken requirements. The tool-binding regression checks the five-tool inventory and confirms schema/metric context is supplied without dedicated tools. No live Gemini API call was made for this cleanup.

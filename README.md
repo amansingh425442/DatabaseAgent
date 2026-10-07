@@ -44,6 +44,8 @@ Gemini receives the question, recent conversation, approved-view columns and typ
 
 The database and embeddings run locally. Questions, selected context, and tool results can be sent to the configured Gemini API. Use your own key; provider quotas apply.
 
+The agent exposes five tools: `retrieve_context`, `validate_sql`, `execute_analytics_query`, `check_result`, and `create_chart`. Schema and metric definitions are supplied in the initial prompt, so separate tools to return them are unnecessary.
+
 ## Quick start
 
 Requirements: Python 3.11 or 3.12, Git, a Gemini API key, and Docker with Docker Compose. Initial data and embedding downloads need internet access. Run commands from the repository root.

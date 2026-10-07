@@ -99,7 +99,7 @@ def create_model():
     raise NotImplementedError("Choose and configure a provider/model")
 ```
 
-Set `MODEL_FACTORY=my_model_adapter:create_model` in `.env` to use that alternative adapter. The agent has seven Pydantic tools, a validated report, configurable call/time/retry budgets and a recursion ceiling. Asynchronous cancellation bounds orchestration; a synchronous provider or embedding operation in a worker thread can finish after cancellation, so provider request timeouts remain required. PostgreSQL statements have their own timeout. No private chain-of-thought is displayed or persisted.
+Set `MODEL_FACTORY=my_model_adapter:create_model` in `.env` to use that alternative adapter. The agent has five Pydantic tools, a validated report, configurable call/time/retry budgets and a recursion ceiling. Asynchronous cancellation bounds orchestration; a synchronous provider or embedding operation in a worker thread can finish after cancellation, so provider request timeouts remain required. PostgreSQL statements have their own timeout. No private chain-of-thought is displayed or persisted.
 
 ## Supported analysis and safety
 

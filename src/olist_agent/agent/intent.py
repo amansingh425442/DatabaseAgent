@@ -1,15 +1,13 @@
-"""Small, conservative constraints for explicit scopes the model must not lose.
+"""Recognize chart preferences and simple scopes for result presentation.
 
-This is not a general natural-language SQL parser. It recognizes clear calendar
-year/month comparisons and chart instructions, then validates the complete
-QuerySpec again. Ambiguous dates and unsupported dimensions remain model work.
+Gemini writes all query SQL. This parser helps describe scope in its prompt and
+decide whether approved rows can be summarized locally; it never rewrites SQL.
 """
 from dataclasses import dataclass
 from datetime import date
 import re
 import unicodedata
 
-from olist_agent.models import QuerySpec
 
 
 _CHART = re.compile(r"\b(?:charts?|graphs?|plots?|pie|bars?|scatter|visuali[sz](?:e|ation|ations))\b", re.I)
@@ -211,23 +209,3 @@ def parse_question(question: str) -> IntentConstraints:
         comparison=comparison, states=requested_states, statuses=statuses,
         clear_scope=clear, complex_request=complex_request,
         ambiguous_filter=ambiguous_filter, label=" ".join(parts))
-
-
-def constrain_query(spec: QuerySpec, constraints: IntentConstraints) -> QuerySpec:
-    """Keep the query aligned with clear user scope before SQL approval.
-
-    Returning a newly validated object prevents model_copy's validation bypass.
-    No SQL execution or database access occurs here.
-    """
-    data = spec.model_dump()
-    for name in ("metric", "group_by", "start", "end"):
-        value = getattr(constraints, name)
-        if value is not None:
-            data[name] = value
-    if constraints.years:
-        data["years"] = list(constraints.years)
-    if constraints.states is not None:
-        data["states"] = list(constraints.states)
-    if constraints.statuses is not None:
-        data["statuses"] = list(constraints.statuses)
-    return QuerySpec.model_validate(data)

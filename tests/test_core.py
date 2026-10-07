@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 from olist_agent.models import QuerySpec, QueryResult, ChartSpec
-from olist_agent.analytics.query import compile_query, preview_query, percent_change, check_result, bound_payload
+from olist_agent.analytics.query import compile_query, preview_query, check_result, bound_payload
 from olist_agent.analytics.metrics import METRICS
 from olist_agent.ingestion.importer import convert, inspect_files
 from olist_agent.db.schema import tables
@@ -115,9 +115,7 @@ def test_repeated_import_reports_do_not_change_document_content():
     assert source_documents([import_report]) == source_documents([import_report,import_report])
 
 
-def test_zero_baseline_and_nonadditive_check():
-    assert percent_change(0, 12) is None
-    assert percent_change(100, 120) == Decimal("20")
+def test_additive_and_nonadditive_check():
     assert check_result(sample())["sum_of_displayed_values"] == "250.00"
     assert check_result(sample(metric="aov"))["sum_of_displayed_values"] is None
 

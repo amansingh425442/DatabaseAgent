@@ -8,7 +8,6 @@ from olist_agent.db.connection import readonly
 from olist_agent.models import QuerySpec, SQLQuerySpec, QueryResult
 from .sql_validation import preview_sql, validate_sql
 from .schema_context import APPROVED_COLUMNS, schema_context
-from .metrics import get_definition
 
 EXPRESSIONS = {
     "placed_orders": "COUNT(DISTINCT order_id)",
@@ -200,8 +199,3 @@ def check_result(result):
             "sum_of_displayed_values": str(sum(values)) if additive else None,
             "truncated": result.truncated, "warnings": result.warnings,
             "verification": "Arithmetic over stored result only; use a separate total query to reconcile grouped results."}
-
-
-def percent_change(before, after):
-    before, after = Decimal(str(before)), Decimal(str(after))
-    return None if before == 0 else (after - before) / before * 100

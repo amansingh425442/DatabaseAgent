@@ -1,5 +1,6 @@
 """Streamlit regression for year comparisons and explicit chart requests."""
 from test_agent import ScriptedModel, provider_failure
+# Importing these fixtures registers them with pytest in this module.
 from test_ui import button, connected_ui, isolated_ui_cache
 from test_year_comparison_flow import QUESTION, YEAR_ROWS, make_year_result, wrong_all_time_proposal
 

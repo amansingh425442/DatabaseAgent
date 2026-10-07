@@ -10,7 +10,6 @@ from sqlalchemy.engine import make_url
 from sqlalchemy.exc import DBAPIError
 from olist_agent.db.bootstrap import initialize
 from olist_agent.db.connection import readonly
-from olist_agent.db.schema import documents
 from olist_agent.ingestion.importer import import_csvs
 from olist_agent.analytics.query import QueryService, preview_query
 from olist_agent.config import Settings
@@ -116,7 +115,6 @@ SELECT status,value,DENSE_RANK() OVER (ORDER BY value DESC) AS ranking,
         assert result.rows[0]["literal"] == ":not_a_bind"
         assert store.get_result("generated-sql", result.result_id).spec.sql == sql
         assert preview["query"] == result.query
-        from olist_agent.analytics.sql_validation import validate_sql
         for bad in ("SELECT * FROM raw.orders", "SELECT pg_sleep(1) FROM analytics.order_facts", "DELETE FROM analytics.order_facts"):
             with pytest.raises(ValueError):
                 service.execute(SQLQuerySpec(sql=bad), "generated-sql")

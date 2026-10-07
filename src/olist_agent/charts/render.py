@@ -1,4 +1,3 @@
-from decimal import Decimal
 from datetime import date
 import pandas as pd
 import plotly.express as px

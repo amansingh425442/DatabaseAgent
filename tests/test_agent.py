@@ -92,7 +92,6 @@ def test_real_create_agent_with_mock_model_executes_and_persists():
         return report(tables=[result["result_id"]])
     service, query, store = setup_service([
         call("retrieve_context", {"query":"placed orders"}),
-        call("get_metric_definition", {"metric_id":"placed_orders"}),
         call("execute_analytics_query", {"spec":{"metric":"placed_orders","group_by":"month"}}), result_report])
     output=approve_all(service,"session",service.run("session","Monthly orders"))
     assert len(query.calls)==1
@@ -150,13 +149,13 @@ def test_chart_restriction_enforced_after_model_output():
 
 
 def test_loop_budget_stops_mock_model():
-    service,_,_=setup_service([call("inspect_schema",{})],Settings(max_tool_calls=2,max_seconds=20))
+    service,_,_=setup_service([call("retrieve_context",{"query":"order count"})],Settings(max_tool_calls=2,max_seconds=20))
     with pytest.raises(BudgetExceeded):
         service.run("session","Loop")
 
 
 def test_repeated_failed_tool_is_blocked():
-    service,_,_=setup_service([call("get_metric_definition",{"metric_id":"profit"})],Settings(max_tool_calls=10,max_retries=0,max_seconds=20))
+    service,_,_=setup_service([call("validate_sql",{"spec":{"sql":"SELECT * FROM raw.orders"}})],Settings(max_tool_calls=10,max_retries=0,max_seconds=20))
     with pytest.raises(BudgetExceeded,match="Repeated"):
         service.run("session","profit")
 

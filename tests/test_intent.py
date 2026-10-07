@@ -3,8 +3,7 @@ from datetime import date
 
 import pytest
 
-from olist_agent.agent.intent import constrain_query, parse_question
-from olist_agent.models import QuerySpec
+from olist_agent.agent.intent import parse_question
 
 
 def test_screenshot_question_keeps_only_requested_years_and_no_sample_state():
@@ -15,11 +14,7 @@ def test_screenshot_question_keeps_only_requested_years_and_no_sample_state():
     assert intent.start == date(2016, 1, 1)
     assert intent.end == date(2019, 1, 1)
     assert intent.chart_requested and intent.exact_plan and intent.can_complete
-    wrong = QuerySpec(metric="placed_orders", states=["SP"], statuses=["delivered"])
-    corrected = constrain_query(wrong, intent)
-    assert corrected.group_by == "year" and corrected.years == [2016, 2018]
-    assert corrected.states == corrected.statuses == []
-    assert wrong.states == ["SP"]  # Constraints do not mutate approved objects.
+    assert intent.states == intent.statuses == ()
 
 
 @pytest.mark.parametrize("question,group,years", [
@@ -79,13 +74,11 @@ def test_explicit_chart_denial_wins(question):
     ("Orders by year 2016 and 2018 in Mato Grosso do Sul", "placed_orders", ("MS",), ()),
     ("Orders by year 2016 and 2018 in SP and RJ", "placed_orders", ("RJ", "SP"), ()),
 ])
-def test_explicit_supported_filters_are_included_in_canonical_query(question, metric, states, statuses):
+def test_explicit_supported_filters_are_recognized(question, metric, states, statuses):
     intent = parse_question(question)
     assert intent.metric == metric
     assert intent.states == states and intent.statuses == statuses
     assert intent.can_complete
-    corrected = constrain_query(QuerySpec(metric=metric), intent)
-    assert corrected.states == list(states) and corrected.statuses == list(statuses)
 
 
 @pytest.mark.parametrize("question", [
@@ -113,8 +106,6 @@ def test_category_and_payment_requests_keep_their_grain():
     assert not category.can_complete
     payment = parse_question("Payment method value shares 2018")
     assert payment.metric == "payment_value_share" and payment.group_by == "payment_method"
-    corrected = constrain_query(QuerySpec(metric="payment_value_share", group_by="payment_method"), payment)
-    assert corrected.group_by == "payment_method"
     assert not payment.can_complete
 
 
@@ -160,4 +151,3 @@ def test_explicit_year_range_includes_intermediate_year_even_in_comparison(quest
     intent = parse_question(question)
     assert intent.years == (2016, 2017, 2018)
     assert intent.group_by == "year" and intent.can_complete
-

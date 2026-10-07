@@ -5,7 +5,6 @@ from uuid import uuid4
 import pandas as pd
 import streamlit as st
 
-from olist_agent.analytics.metrics import METRICS
 from olist_agent.analytics.presentation import result_title, value_column
 from olist_agent.analytics.query import QueryService
 from olist_agent.agent.intent import parse_question
